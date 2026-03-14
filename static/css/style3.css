@@ -1,0 +1,214 @@
+:root {
+    --color0: #02151f;
+    --color10: #000000;
+    --color1: #274c77;
+    --color5: #cb9152;
+    --color50: rgb(112, 76, 37);
+    --color6: rgba(39, 76, 119, 0.2);
+}
+
+/* ---------- Fonts ---------- */
+
+@font-face {
+    font-family: "LavishlyYours";
+    src: url("../fonts/LavishlyYours-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "HackNerd";
+    src: url("../fonts/HackNerdFontMono-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter.woff2") format("woff2");
+}
+
+/* ---------- Reset ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* ---------- Body ---------- */
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(-25deg, var(--color10), var(--color0));
+    font-family: "Inter", Helvetica, sans-serif;
+    padding: 0.5rem;
+    color: white;
+}
+
+/* ---------- Links ---------- */
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Container ---------- */
+
+.page_container {
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* ---------- Cards ---------- */
+
+.card,
+.nav_card,
+.job_listings,
+.skills-card {
+    width: 100%;
+
+    padding: 0.75rem;
+
+    border-radius: 10px;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    backdrop-filter: blur(2px);
+
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Card variant ---------- */
+
+.card {
+    background: var(--color6);
+    color: rgb(3, 6, 29);
+    border-radius: 5px 26px 5px 26px;
+}
+
+/* ---------- Headline ---------- */
+
+h1 {
+    font-family: "HackNerd";
+    font-size: 1.4rem;
+    color: white;
+}
+
+/* ---------- Signature ---------- */
+
+.signature {
+    font-family: "LavishlyYours";
+    font-size: 3rem;
+    color: white;
+}
+
+/* ---------- Text ---------- */
+
+p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* ---------- Search ---------- */
+
+.search_area {
+    padding: 0.5rem;
+}
+
+/* ---------- Skill blocks ---------- */
+
+.skill {
+    width: 100%;
+
+    background: var(--color0);
+
+    padding: 1rem;
+
+    border-radius: 8px;
+
+    text-align: left;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.focused_job {
+    width: 100%;
+
+    padding: 1rem;
+
+    text-align: left;
+}
+
+/* ---------- Lists ---------- */
+
+.skills-list h1 {
+    font-weight: 700;
+}
+
+/* ===================================================== */
+/* ================= TABLET ============================= */
+/* ===================================================== */
+
+@media (min-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .page_container {
+        max-width: 720px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .signature {
+        font-size: 4rem;
+    }
+}
+
+/* ===================================================== */
+/* ================= DESKTOP ============================ */
+/* ===================================================== */
+
+@media (min-width: 1024px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+
+    .page_container {
+        max-width: 960px;
+    }
+
+    .card,
+    .nav_card,
+    .job_listings,
+    .skills-card {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .signature {
+        font-size: 5rem;
+    }
+}

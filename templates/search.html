@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Job Search</title>
+
+        <style>
+            body {
+                background: #111;
+                color: #eee;
+                font-family: monospace;
+            }
+
+            .card {
+                width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                background: #1a1a1a;
+                border-radius: 10px;
+            }
+
+            input {
+                width: 70%;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            button {
+                padding: 10px;
+            }
+
+            .job {
+                margin-top: 10px;
+                padding: 10px;
+                border-bottom: 1px solid #333;
+            }
+
+            a {
+                color: #6cf;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="card">
+            <h1>Search Jobs</h1>
+
+            <form method="get" action="/search">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ q or '' }}"
+                    placeholder="python, nurse, aws, data analyst..."
+                />
+
+                <button type="submit">Search</button>
+            </form>
+
+            {% if jobs %}
+
+            <h2>Results</h2>
+
+            {% for title, company, state, country, url in jobs %}
+
+            <div class="job">
+                <b>{{ title }}</b><br />
+
+                {{ company }} — {{ state }}, {{ country }}<br />
+
+                <a href="{{ url }}" target="_blank">view</a>
+            </div>
+
+            {% endfor %} {% endif %} {% if q and not jobs %}
+            <p>No results</p>
+            {% endif %}
+        </div>
+    </body>
+</html>

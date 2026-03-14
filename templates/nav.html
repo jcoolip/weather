@@ -1,0 +1,11 @@
+<div class="nav_card">
+    <h1>
+        <a href="{{ url_for('find') }}">Job Market</a>
+    </h1>
+    <a href="{{ url_for('i_jobs', i_name=industry) }}">{{ industry }} </a><br />
+
+    <p>
+        <a href="{{ url_for('industries_page') }}">[ industries ]</a>
+        <a href="{{ url_for('find') }}">[ search ]</a>
+    </p>
+</div>

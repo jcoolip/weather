@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Jobs for {{ skill }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/style2.css') }}"
+        />
+    </head>
+    <body>
+        <div class="skills-card">
+            <div class="skills-list">
+                {% for job in jobs %}
+                <span class="skill">
+                    <h2><a href="{{ job.source_url }}">{{ job.title }}</a></h2>
+                    <p class="company">{{ job.company or "Unknown" }}</p>
+                    <p class="location">{{ job.country or "Unknown" }}</p>
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>
