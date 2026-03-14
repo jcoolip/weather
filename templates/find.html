@@ -2,80 +2,40 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>jcullop 2026</title>
+        <title>Weather</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='css/style2.css') }}"
-        />
+        {% include "css.html" %}
+
         <link
             rel="icon"
             href="{{ url_for('static', filename='favicon.png') }}"
             type="image/png"
         />
     </head>
-
     <body>
         <div class="page_container">
-            <!doctype html>
-            <html lang="en">
-                <head>
-                    <meta charset="UTF-8" />
-                    <title>Skills</title>
-                    <meta
-                        name="viewport"
-                        content="width=device-width, initial-scale=1.0"
-                    />
-                    <link
-                        rel="stylesheet"
-                        href="{{ url_for('static', filename='css/style2.css') }}"
-                    />
-                </head>
-                <body>
-                    <div class="page_container">
-                        {% include "nav.html" %}
-                        <br />
-                        <div class="job_listings">
-                            <br />
-                            <div class="search_area">
-                                <form method="get" action="/find">
-                                    <input
-                                        type="text"
-                                        name="q"
-                                        value="{{ q or '' }}"
-                                        placeholder="python, nurse, data analyst..."
-                                    />
+            {% include "nav.html" %}
+            <br />
+            <div class="job_listings">
+                <br />
+                <div class="search_area">
+                    <form method="get" action="/find">
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ q or '' }}"
+                            placeholder="city, state, zip..."
+                        />
 
-                                    <button type="submit">Search</button>
-                                </form>
-                                Searching through {{ job_total }}+ jobs
-                                <br />
-                            </div>
-                            {% if jobs %}
-                            <br />
-                            <h2>Jobs related to "{{q}}":</h2>
-                            <br />
-                            {% for title, company, state, country, url,
-                            industry, external_id in jobs %}
-                            <br />
-                            <div class="job">
-                                <a
-                                    href="{{ url_for('job_focus', external_id=external_id, i_name=industry) }}"
-                                    ><b>{{ title }}</b></a
-                                ><br />
-
-                                {{ company }} — {{ state }}, {{ country }}<br /><br /><br />
-                                <hr />
-                                <br /><br />
-                            </div>
-
-                            {% endfor %} {% endif %} {% if q and not jobs %}
-                            <p>No results</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </body>
-            </html>
+                        <button type="submit">Search</button>
+                    </form>
+                    {% if q %} {{ q }}<br />
+                    Current: {{ weather["temp"] }}<br />Feels like: {{
+                    weather["feels_like"] }}<br />
+                    {% if weather["weather_code"] != 0.0 %}{{
+                    weather["weather_code"] }}{%endif%} {% endif %} <br /><br />
+                </div>
+            </div>
         </div>
     </body>
 </html>

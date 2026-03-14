@@ -4,7 +4,7 @@
     --color1: #274c77;
     --color5: #cb9152;
     --color50: rgb(112, 76, 37);
-    --color6: rgba(39, 76, 119, 0.2);
+    --color6: #a16112;
 }
 
 /* ---------- Fonts ---------- */
@@ -42,7 +42,7 @@ body {
 
 body {
     min-height: 100vh;
-    background: linear-gradient(-25deg, var(--color10), var(--color0));
+    background: linear-gradient(-25deg, var(--color6), var(--color1), black);
     font-family: "Inter", Helvetica, sans-serif;
     padding: 0.5rem;
     color: white;

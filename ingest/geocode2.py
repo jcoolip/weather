@@ -26,10 +26,7 @@ def geocode_city(city_name="Beckley"):
     # Build the geocoding API endpoint and request parameters. We ask for
     # a single (most relevant) result by setting count=1.
     url = "https://geocoding-api.open-meteo.com/v1/search"
-    params = {
-        "name": city_name,
-        "count": 1
-    }
+    params = {"name": city_name, "count": 1}
 
     # Make the HTTP GET request to the geocoding API.
     response = requests.get(url, params=params)
@@ -42,8 +39,9 @@ def geocode_city(city_name="Beckley"):
     # If there are no results in the response, raise a meaningful error so
     # callers can handle the lookup failure explicitly.
     if "results" not in data:
-        raise ValueError(f"City '{city_name}' not found in geocoding API.")
-    
+        # raise ValueError(f"City '{city_name}' not found in geocoding API.")
+        return {"error": f"City '{city_name}' not found in geocoding API."}
+
     # Use the first result returned by the API (most relevant match).
     result = data["results"][0]
 
@@ -58,5 +56,5 @@ def geocode_city(city_name="Beckley"):
         "elevation": result["elevation"],
         "population": result["population"],
         "country": result["country"],
-        "state": result["admin1"]
+        "state": result["admin1"],
     }
