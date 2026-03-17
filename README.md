@@ -5,7 +5,7 @@ The aquisition and display of user specific weather related details as made avai
 
 Really though, you type in a zip code and it'll show you current and forecasted weather.  :+1:
 
-## :hammer: Skills
+## :hammer: Tools
 - Python
 - PostgreSQL
 - Flask
