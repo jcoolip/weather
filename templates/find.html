@@ -29,11 +29,18 @@
 
                         <button type="submit">Search</button>
                     </form>
-                    {% if q %} {{ q }}<br />
-                    Current: {{ weather["temp"] }}<br />Feels like: {{
-                    weather["feels_like"] }}<br />
-                    {% if weather["weather_code"] != 0.0 %}{{
-                    weather["weather_code"] }}{%endif%} {% endif %} <br /><br />
+                    {% if loc %} {{ loc.get("name", "Unknown") }}, {{
+                    loc.get("state", "N/A") }}, {{ loc.get("country", "N/A")
+                    }}<br />
+                    Population: {{ loc.get("population", "N/A") }} Elevation: {{
+                    loc.get("elevation", "N/A") }}ft.<br />
+                    {% endif %} {% if weather %} Current: {{ weather.get("temp",
+                    "N/A") }}<br />
+                    Feels like: {{ weather.get("feels_like", "N/A") }}<br />
+                    {% if weather.get("weather_code") and
+                    weather.get("weather_code") != 0 %} Weather code: {{
+                    weather.get("weather_code") }}<br />
+                    {% endif %} {% endif %}
                 </div>
             </div>
         </div>

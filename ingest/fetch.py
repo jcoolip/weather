@@ -18,6 +18,47 @@ import requests_cache
 from psycopg2.extras import execute_values
 from retry_requests import retry
 
+weather_code_map = {
+    0: "Clear sky",
+    1: "Mainly clear",
+    2: "Partly cloudy",
+    3: "Overcast",
+    45: "Fog",
+    48: "Depositing rime fog",
+    51: "Light drizzle:",
+    53: "Moderate drizzle",
+    55: "Dense drizzle",
+    56: "Light Freezing Drizzle",
+    57: "Dense Freezing Drizzle:",
+    61: "Slight Rain",
+    63: "Moderate Rain",
+    65: "Heavy Rain",
+    66: "Light Freezing Rain",
+    67: "Heavy Freezing Rain",
+    71: "Slight Snow fall",
+    73: "Moderate Snow fall",
+    75: "Heavy Snow fall",
+    77: "Snow grains",
+    80: "Slight Rain showers",
+    81: "Moderate Rain showers",
+    82: "Violent Rain showers",
+    85: "Slight Snow showers",
+    86: "Heavy Snow showers",
+    95: "Slight Thunderstorm",
+    96: "Thunderstorm with slight hail",
+    99: "Thunderstorm with heavy hail",
+}
+
+
+def deg_to_compass(deg):
+    try:
+        d = float(deg)
+    except (TypeError, ValueError):
+        return None
+    directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+    idx = int((d / 45.0) + 0.5) % 8
+    return directions[idx]
+
 
 def normalize_hourly_dataframe(df: pd.DataFrame, user_timezone: str) -> pd.DataFrame:
     """
@@ -362,10 +403,12 @@ def get_current_weather(lat=None, lon=None, forecast_hours=None):
     current_apparent_temperature = current.Variables(1).Value()
     current_weather_code = current.Variables(2).Value()
 
+    weather_code = weather_code_map.get(current_weather_code)
+
     return {
         "temp": round(current_temperature_2m),
         "feels_like": round(current_apparent_temperature),
-        "weather_code": current_weather_code,
+        "weather_code": weather_code,
     }
 
     # print(f"\nCurrent time: {current.Time()}")

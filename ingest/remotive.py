@@ -1,8 +1,9 @@
-import os
-import requests
-import psycopg2
 import json
+import os
 import re
+
+import psycopg2
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,9 +16,10 @@ DB_URL = os.getenv("DATABASE_URL")
 
 # sometimes remotive uses this: en dash (Unicode U+2013)"–" instead of usual hyphen "-"
 salary_pattern = re.compile(
-    r'(?P<currency>[$€£])?\s*(?P<min>\d[\d,\.]*k?)\s*(?:[-–]\s*(?P<max>\d[\d,\.]*k?))?\s*(?:/?\s*(?P<freq>hour|hr|year|yr|month|mo|day))?',
-    re.IGNORECASE
+    r"(?P<currency>[$€£])?\s*(?P<min>\d[\d,\.]*k?)\s*(?:[-–]\s*(?P<max>\d[\d,\.]*k?))?\s*(?:/?\s*(?P<freq>hour|hr|year|yr|month|mo|day))?",
+    re.IGNORECASE,
 )
+
 
 def parse_salary(text):
     m = salary_pattern.search(text)
@@ -39,17 +41,21 @@ def parse_salary(text):
 
     return normalize(smin), normalize(smax), freq, currency
 
+
 def fetch_jobs():
     r = requests.get(API_URL, params=PARAMS, timeout=10)
     r.raise_for_status()
     return r.json()["jobs"]
 
+
 def save_json(jobs):
-    with open("remotiveTests.json", "w") as f:
+    with open("logs/remotiveTests.json", "w") as f:
         json.dump(jobs, f, indent=4)
+
 
 def get_connection():
     return psycopg2.connect(DB_URL)
+
 
 def upsert_company(cur, name):
     cur.execute(
@@ -64,9 +70,10 @@ def upsert_company(cur, name):
     )
     return cur.fetchone()[0]
 
+
 def upsert_location(cur, location_obj):
     city = ""
-    state =  ""
+    state = ""
     country = location_obj
 
     cur.execute(
@@ -82,6 +89,7 @@ def upsert_location(cur, location_obj):
 
     return cur.fetchone()[0]
 
+
 def insert_job(cur, external_id, item, company_id, location_id):
     salary = item["salary"] or ""
     if salary != "":
@@ -94,7 +102,6 @@ def insert_job(cur, external_id, item, company_id, location_id):
 
     tags = item["tags"]
     tags_row = ",".join(tags)
-
 
     cur.execute(
         """
@@ -117,7 +124,7 @@ def insert_job(cur, external_id, item, company_id, location_id):
         )
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         ON CONFLICT (source, external_id)
-        DO UPDATE SET 
+        DO UPDATE SET
             last_seen = now(),
             work_mode = EXCLUDED.work_mode,
             employment_type = EXCLUDED.employment_type,
@@ -144,12 +151,14 @@ def insert_job(cur, external_id, item, company_id, location_id):
             salary_freq,
             salary_currency,
             salary,
-            tags_row
+            tags_row,
         ),
     )
     job_id, inserted = cur.fetchone()
 
+    print(item["title"])
     return job_id, int(inserted)
+
 
 def main():
 
@@ -173,6 +182,7 @@ def main():
     conn.close()
 
     print(f"Remotive added {rows_added}")
+
 
 if __name__ == "__main__":
     main()

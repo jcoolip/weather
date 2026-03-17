@@ -31,7 +31,7 @@ def fetch_jobs(cur):
     for p in PARAMS_LIST:
         r = requests.get(API_URL, headers=HEADERS, params=p, timeout=10)
         r.raise_for_status()
-        f = f"1{p.get('keyword')}.json"
+        f = f"logs/usajobs_{p.get('keyword')}.json"
         jobs = r.json()["SearchResult"]["SearchResultItems"]
         with open(f, "w") as json_file:
             json.dump(jobs, json_file, indent=4)
