@@ -24,6 +24,95 @@
     src: url("../fonts/Inter.woff2") format("woff2");
 }
 
+input[type="text"] {
+    background-color: #aaaaaa;
+}
+.location {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: right;
+}
+.cur_date {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: left;
+}
+.cur_emoji {
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: right;
+}
+.current-row {
+    /*display: flex;*/
+    gap: 0.3rem;
+    justify-content: space-between;
+    /*flex-wrap: nowrap;*/
+    overflow-x: auto; /* allow scrolling if screen is small */
+}
+
+.day-row {
+    display: flex;
+    gap: 0.3rem;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    overflow-x: auto; /* allow scrolling if screen is small */
+}
+
+.current-card {
+    /*flex: 0 0 260px; /* fixed card width */
+    width: 100%;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0.75rem;
+    font-family: "Inter", sans-serif;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    gap: 0.25rem;
+    text-align: center;
+}
+
+.day-card {
+    flex: 0 0 160px; /* fixed card width */
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0.75rem;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+}
+
+.card-header {
+    font-weight: bold;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.temps {
+    font-size: 1.1rem;
+}
+
+.emoji {
+    font-size: 1.6rem;
+}
+
+.max {
+    font-size: 1.9rem;
+    font-weight: bold;
+}
+
+.apparent,
+.precip,
+.wind,
+.sun,
+.uv {
+    font-size: 0.9rem;
+}
+
 /* ---------- Reset ---------- */
 
 * {

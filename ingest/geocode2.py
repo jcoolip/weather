@@ -54,7 +54,7 @@ def geocode_city(city_name="Beckley"):
         "longitude": result["longitude"],
         "timezone": result["timezone"],
         "elevation": result["elevation"],
-        "population": result["population"],
+        "population": result["population"] or None,
         "country": result["country"],
         "state": result["admin1"],
     }

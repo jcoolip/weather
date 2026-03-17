@@ -1,8 +1,16 @@
 <div class="nav_card">
-    <h1>
+    <!--<h1>
         <a href="{{ url_for('find') }}">Weather</a>
     </h1>
-    <br />
+    <br />-->
 
-    <p>[ current ]</p>
+    <p>
+        Current & 5-day forecast for<br />{% if loc %}
+        <span class="location"
+            >{{ loc.get("name", "Unknown") }}, {{ loc.get("state", "N/A") }}, {{
+            loc.get("country", "N/A") }}</span
+        ><br />
+        Population: {{ loc.get("population", "N/A") }}<br />Elevation: {{
+        loc.get("elevation", "N/A") }} ft.{% else %} Error... {% endif %}
+    </p>
 </div>

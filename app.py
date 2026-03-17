@@ -1,13 +1,11 @@
 import os
-from itertools import count
 
 import psycopg2
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
 from livereload import Server
-from requests.api import get
 
-from ingest.fetch import get_current_weather
+from ingest.fetch import five_day_forecast, get_current_weather2
 from ingest.geocode2 import geocode_city
 
 weather_code_map = {
@@ -81,57 +79,25 @@ def health():
 
 @app.route("/find")
 def find():
-
-    q = request.args.get("q")
-    weather = None
+    q = request.args.get("q", "25801")
+    cur_weather = None
     loc = None
 
     if q:
         loc = geocode_city(q)
         if isinstance(loc, dict) and "error" in loc:
-            weather = {"temp": f"City '{q}' not found in geocoding API."}
+            cur_weather = {"temp": f"City '{q}' not found in geocoding API."}
         else:
-            weather = get_current_weather(loc["latitude"], loc["longitude"]) or None
-        # weather = weather.Current()
-        # with get_conn() as conn:
-        #     with conn.cursor() as cur:
-        #         cur.execute(
-        #             """
-        #             SELECT
-        #                 j.title,
-        #                 c.name,
-        #                 l.state,
-        #                 l.country,
-        #                 j.source_url,
-        #                 i.name AS industry,
-        #                 j.external_id
-        #             FROM jobs j
-        #             LEFT JOIN companies c ON c.id = j.company_id
-        #             LEFT JOIN locations l ON l.id = j.location_id
-        #             LEFT JOIN job_skills js ON js.job_id = j.id
-        #             LEFT JOIN skills s ON s.id = js.skill_id
-        #             LEFT JOIN industries i on i.id = j.industry_id
-        #             WHERE
-        #                 j.is_active = TRUE
-        #                 AND (
-        #                     j.title ILIKE %s OR
-        #                     j.description_raw ILIKE %s OR
-        #                     c.name ILIKE %s OR
-        #                     s.name ILIKE %s
-        #                 )
-        #             GROUP BY j.id, c.name, l.state, l.country, i.name, j.external_id
-        #             ORDER BY j.last_seen DESC
-        #             LIMIT 10;
-        #         """,
-        #             (f"%{q}%", f"%{q}%", f"%{q}%", f"%{q}%"),
-        #         )
-
-        # jobs = "weather"
+            cur_weather = (
+                get_current_weather2(loc["latitude"], loc["longitude"]) or None
+            )
+            forecast = five_day_forecast(loc["latitude"], loc["longitude"]) or None
 
     return render_template(
         "find.html",
         q=q,
-        weather=weather,
+        cur_weather=cur_weather,
+        forecast=forecast,
         loc=loc,
     )
 
