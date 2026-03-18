@@ -7,19 +7,16 @@ response format) and `requests_cache` plus `retry_requests` to make the
 calls resilient and cache responses locally.
 """
 
-import json
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import openmeteo_requests
-import pandas as pd
-import psycopg2
 import requests
 import requests_cache
-from psycopg2.extras import execute_values
 from retry_requests import retry
 
 ## TODO:  images for conditions
+## using emojis right now. maybe that's good enough
 # 0,1: clear
 # 2,3: cloudy
 # 45,48: fog

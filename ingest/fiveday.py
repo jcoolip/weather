@@ -1,7 +1,18 @@
-import pandas as pd
-from fetch import deg_to_compass, five_day_forecast, get_current_weather2
+###############################################
+# ingest/fiveday.py
+# This is a test script to make sure the weather pipeline works
+# without having to use flask run or restarting web service.
+#
+# Retrieves lat lon of city
+# Retrieves five day forecast for city
+# Retrieves current weather for city
+###############################################
+
+
+from fetch import five_day_forecast, get_current_weather2
 from geocode import geocode_city
 
+# Mapping of weather codes to descriptive text
 weather_code_map = {
     0: "Clear sky",
     1: "Mainly clear",
@@ -33,40 +44,14 @@ weather_code_map = {
     99: "Thunderstorm with heavy hail",
 }
 
-
+# Geocode the city to get its latitude and longitude
 city = geocode_city("Beckley")
-# print(city)
+
+# Get the five-day forecast using the city's coordinates
 five_day = five_day_forecast(city["latitude"], city["longitude"])
+
+# Get the current weather using the city's coordinates
 current = get_current_weather2(city["latitude"], city["longitude"])
 
-
+# Print the current weather data
 print(current)
-
-# daily = five_day["daily"]
-
-# forecast = []
-
-# for i in range(len(daily["time"])):
-#     row = {
-#         "date": daily["time"][i],
-#         "weather_code": weather_code_map.get(daily["weather_code"][i], "Unknown"),
-#         "temp_max": daily["temperature_2m_max"][i],
-#         "temp_min": daily["temperature_2m_min"][i],
-#         "apparent_max": daily["apparent_temperature_max"][i],
-#         "apparent_min": daily["apparent_temperature_min"][i],
-#         "sunrise": daily["sunrise"][i],
-#         "sunset": daily["sunset"][i],
-#         "uv": daily["uv_index_max"][i],
-#         "rain": daily["rain_sum"][i],
-#         "showers": daily["showers_sum"][i],
-#         "snow": daily["snowfall_sum"][i],
-#         "precip": daily["precipitation_sum"][i],
-#         "precip_prob": daily["precipitation_probability_max"][i],
-#         "wind_speed": daily["wind_speed_10m_max"][i],
-#         "wind_gust": daily["wind_gusts_10m_max"][i],
-#         "wind_dir": deg_to_compass(daily["wind_direction_10m_dominant"][i]),
-#     }
-
-#     forecast.append(row)
-
-# print(forecast)

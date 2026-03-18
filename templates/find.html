@@ -51,32 +51,17 @@
                         <div class="cur_details">
                             Feels like: {{ cur_weather.get("feels_like", "N/A")
                             }}°<br />
-                            Humidity: {{ cur_weather.get("humidity", "N/A") }}
+                            Humidity: {{ cur_weather.get("humidity", "N/A") }} %
                             <br />Visibility: {{ cur_weather.get("visibility",
                             "N/A") }}mi. <br />Pressure: {{
-                            cur_weather.get("surface_pressure", "N/A") }}hPa<br />
-                            Wind: {{ cur_weather.get("wind_speed", "N/A")
-                            }}mph<br />
+                            cur_weather.get("surface_pressure", "N/A") }} hPa<br />
+                            Wind: {{ cur_weather.get("wind_speed", "N/A") }}
+                            mph<br />
                             Wind gusts: {{ cur_weather.get("wind_gust", "N/A")
-                            }}mph <br />Wind direction: {{
+                            }} mph <br />Wind direction: {{
                             cur_weather.get("wind_dir", "N/A") }}
                         </div>
                     </div>
-
-                    <!--<div class="current-card">
-                        Current Weather: {{ loc.get("name", "Unknown") }}, {{
-                        loc.get("state", "N/A") }}, {{ loc.get("country", "N/A")
-                        }}<br />
-                        Population: {{ loc.get("population", "N/A") }}
-                        Elevation: {{ loc.get("elevation", "N/A") }}ft.<br />
-                        {% endif %} {% if cur_weather %} Current: {{
-                        cur_weather.get("temp", "N/A") }}<br />
-                        Feels like: {{ cur_weather.get("feels_like", "N/A")
-                        }}<br />
-                        {% if cur_weather.get("weather_code") and
-                        cur_weather.get("weather_code") != 0 %} Weather code: {{
-                        cur_weather.get("weather_code") }}
-                    </div>-->
                     <br /><br /><br />
                     {% endif %}
                     <div class="day-row">
