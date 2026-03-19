@@ -1,0 +1,7 @@
+### fill in your details
+DATABASE_URL=postgresql://USER:PASS@localhost:PORT/DBNAME
+
+### files read this bit
+### 0=production,db inserts,db updates
+### 1=debug,no touch db
+DEV_MODE=0
