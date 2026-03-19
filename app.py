@@ -52,7 +52,10 @@ def deg_to_compass(deg):
 
 load_dotenv()
 
-dev_mode = os.getenv("DEV_MODE", "1") == "1"  # set DEV_MODE=0 for production
+### DEV_MODE=1 : development
+### DEV_MODE=0 : production
+### Missing : defaults to development
+dev_mode = os.getenv("DEV_MODE", "1") == "1"
 
 app = Flask(__name__)
 
@@ -79,19 +82,28 @@ def health():
 
 @app.route("/find")
 def find():
+    ### get user submitted input
+    ### default to Beckley if first load
+    ### TODO: ask for location/save pref somehow.
+    ###       i think its cookies. mmm
     q = request.args.get("q", "25801")
     cur_weather = None
     loc = None
 
     if q:
-        loc = geocode_city(q)
-        if isinstance(loc, dict) and "error" in loc:
-            cur_weather = {"temp": f"City '{q}' not found in geocoding API."}
-        else:
-            cur_weather = (
-                get_current_weather2(loc["latitude"], loc["longitude"]) or None
-            )
-            forecast = five_day_forecast(loc["latitude"], loc["longitude"]) or None
+        try:
+            loc = geocode_city(q)
+            if isinstance(loc, dict) and "error" in loc:
+                cur_weather = None
+                forecast = None
+            else:
+                cur_weather = (
+                    get_current_weather2(loc["latitude"], loc["longitude"]) or None
+                )
+                forecast = five_day_forecast(loc["latitude"], loc["longitude"]) or None
+        except Exception as e:
+            cur_weather = None
+            forecast = None
 
     return render_template(
         "find.html",
