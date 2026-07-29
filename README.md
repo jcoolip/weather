@@ -14,7 +14,7 @@ Tools
 
 
 
-## :card_file_box: Sources
+##  Sources
 - [Open-Meteo](https://open-meteo.com).
 
 
