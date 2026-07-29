@@ -1,3 +1,14 @@
+:root {
+    --color0: #02151f;
+    --color10: #000000;
+    --color1: #274c77;
+    --color5: #cb9152;
+    --color50: rgb(112, 76, 37);
+    --color6: #a16112;
+}
+
+/* ---------- Fonts ---------- */
+
 @font-face {
     font-family: "LavishlyYours";
     src: url("../fonts/LavishlyYours-Regular.woff2") format("woff2");
@@ -18,173 +29,16 @@
     src: url("../fonts/IBMPlexMono-Regular.woff2") format("woff2");
 }
 
-:root {
-    --color0: #02151f;
-    --color10: #000000;
-    --color1: #274c77;
-    --color5: #cb9152;
-    --color50: rgb(112, 76, 37);
-    --color6: #a16112;
-
-    --terminal-border: #cb9152;
-    --terminal-text: #ffffff;
-    --terminal-text-muted: #cb9152;
-    --terminal-panel: rgba(0, 0, 0, 0.88);
-}
-
-/* Main current-weather panel */
-.current-card {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(90px, 1fr);
-
-    width: 100%;
-    min-height: 215px;
-
-    background: var(--terminal-panel);
-    border: 1px solid var(--terminal-border);
-
-    overflow: hidden;
-}
-
-/* Left two-thirds */
-.current-info {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    padding: 0.75rem;
-}
-
-/* Location heading */
-.location {
-    margin-bottom: 0.85rem;
-    padding-bottom: 0.55rem;
-
-    border-bottom: 1px dashed rgba(203, 145, 82, 0.45);
-}
-
-.location h1 {
-    margin: 0;
-
-    color: var(--color5);
-    /* font-size: 10rem; */
-    /* font-size: clamp(5rem, 5vw, 1.45rem); */
-    /* line-height: 1.1; */
-
-    text-align: center;
-}
-
-.location-meta {
-    margin-top: 0.4rem;
-
-    color: var(--terminal-text);
-    font-size: 0.72rem;
-    line-height: 1.5;
-}
-
-/* Terminal-style label/value grid */
-.cur-details {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) max-content;
-    column-gap: 0.4rem;
-    row-gap: 0.5rem;
-
-    align-items: baseline;
-
-    width: 100%;
-    margin-top: auto;
-
-    font-size: 0.78rem;
-}
-
-.detail-label {
-    min-width: 0;
-    color: var(--terminal-text-muted);
-    white-space: nowrap;
-}
-
-.detail-label::before {
-    content: ":: ";
-}
-
-.detail-value {
-    color: var(--terminal-text);
-
-    text-align: right;
-    white-space: nowrap;
-
-    font-variant-numeric: tabular-nums;
-}
-
-/* Right third */
-.current-image {
-    position: relative;
-    overflow: hidden;
-    padding-right: 2px;
-    border-left: 1px solid var(--terminal-border);
-}
-
-.current-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-
-    position: relative;
-    z-index: 1;
-}
-
-/* Optional terminal treatment over the image */
-.current-image::before {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            transparent 0,
-            transparent 3px,
-            rgba(0, 0, 0, 0.12) 3px,
-            rgba(0, 0, 0, 0.12) 4px
-        );
-
-    pointer-events: none;
-}
-
-.current-image::after {
-    content: "CURRENT";
-
-    position: absolute;
-
-    right: 4px;
-    bottom: 4px;
-
-    writing-mode: vertical-rl;
-
-    font-size: .55rem;
-    letter-spacing: .15rem;
-
-    color: rgba(255,255,255,.45);
-
-    z-index: 2;
-
-    pointer-events: none;
-}
-
-.footer {
-    font-size: 0.5rem;
-    text-align: center;
-}
-
 input[type="text"] {
     background-color: #aaaaaa;
 }
 .location {
     font-size: 1rem;
     font-weight: bold;
-    text-align: left;
+    text-align: right;
+}
+.location h1 {
+    font-size: 0.2rem;
 }
 .cur_date {
     font-size: 2rem;
@@ -214,6 +68,85 @@ input[type="text"] {
 
 
 
+.current-card {
+    display: grid;
+    grid-template-columns: minmax(0, 2.1fr) minmax(88px, 1fr);
+    min-height: 190px;
+
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--terminal-border);
+}
+
+.current-info {
+    min-width: 0;
+    padding: 0.85rem 0.65rem;
+}
+
+.cur-details {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    align-items: baseline;
+
+    column-gap: 0.4rem;
+    row-gap: 0.55rem;
+}
+
+.detail-label {
+    min-width: 0;
+    color: var(--terminal-text-muted);
+    white-space: nowrap;
+}
+
+.detail-value {
+    color: var(--terminal-text);
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.current-image {
+    min-width: 0;
+    overflow: hidden;
+
+    border-left: 1px solid var(--terminal-border);
+}
+
+.current-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+}
+
+
+
+
+
+
+
+
+
+
+/* .current-card {
+    /*flex: 0 0 260px; /* fixed card width 
+    width: 100%;
+    background: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0.75rem;
+    /* font-family: "Inter", sans-serif; 
+    /*display: flex;
+    /*flex-direction: column;
+    gap: 0.25rem;
+    /* text-align: center; 
+} */
+
+/* .cur-details {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+} */
 
 .detail-row {
     display: grid;
@@ -292,7 +225,7 @@ body {
 
 body {
     min-height: 100vh;
-    background: var(--color10);
+    background: var(--color0);
     font-family: "IBMPlexMono-Regular", Helvetica, sans-serif;
     padding: 0.5rem;
     color: white;
@@ -355,7 +288,7 @@ a:hover {
 
 h1 {
     /* font-family: "HackNerd"; */
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #cb9152;
 }
 

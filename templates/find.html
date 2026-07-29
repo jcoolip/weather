@@ -14,98 +14,121 @@
     </head>
     <body>
         <div class="page_container">
-            {% include "nav.html" %}
             <br />
             <div class="job_listings">
                 <br />
-                <div class="search_area">
-                    <form method="get" action="/find">
-                        <input
-                            type="text"
-                            name="q"
-                            value="{{ q or '' }}"
-                            placeholder="city, state, zip..."
-                        />
-
-                        <button type="submit">Search</button><br /><br />
-                    </form>
-                    {% if loc and forecast and cur_weather %}
+                {% if loc and forecast and cur_weather %}
                     <div class="current-card">
-                        <div class="cur_card-header">
-                            <span class="cur_date"
-                                >{{ cur_weather.get("date")}}</span
-                            >
-                            <span class="cur_emoji"
-                                >{% if cur_weather.get("weather_code") and
-                                cur_weather.get("weather_code") != 0 %} {{
-                                cur_weather.get("weather_code") }}{% endif
-                                %}</span
-                            >
+                        <div class="current-info">
+
+                            <div class="location">
+                                <h1>{{ loc.name }}, {{ loc.state }}</h1>
+                                <br>
+                                <div class="cur-details">
+                                    {% if loc.population %}
+                                        <div class="detail-label">Population</div><div class="detail-value">{{ loc.population }}</div>
+                                    {% endif %}
+
+                                    {% if loc.elevation %}
+                                        <div class="detail-label">Elevation</div><div class="detail-value">{{ loc.elevation }} ft.</div>
+                                    {% endif %}
+                                </div>
+
+
+                                <!-- <div class="location-meta">
+                                    {% if loc.population %}
+                                        <div>:: Population: {{ loc.population }}</div>
+                                    {% endif %}
+
+                                    {% if loc.elevation %}
+                                        <div>:: Elevation: {{ loc.elevation }} ft.</div>
+                                    {% endif %}
+                                </div> -->
+                            </div>
+
+                            <div class="cur-details">
+                                <div class="detail-label">Current</div>
+                                <div class="detail-value">
+                                    {{ cur_weather.get("temp", "N/A") }}
+                                    {{ cur_weather.get("temp_unit", "") }}
+                                </div>
+
+                                <div class="detail-label">Humidity</div>
+                                <div class="detail-value">
+                                    {{ cur_weather.get("humidity", "N/A") }}%
+                                </div>
+
+                                <div class="detail-label">Visibility</div>
+                                <div class="detail-value">
+                                    {{ cur_weather.get("visibility", "N/A") }}
+                                    mi
+                                </div>
+
+                                <div class="detail-label">Pressure</div>
+                                <div class="detail-value">
+                                    {{ cur_weather.get("surface_pressure", "N/A") }}
+                                    {{ cur_weather.get("surface_pressure_unit", "") }}
+                                </div>
+
+                                <div class="detail-label">Wind Gusts</div>
+                                <div class="detail-value">
+                                    {{ cur_weather.get("wind_gust", "N/A") }}
+                                    {{ cur_weather.get("wind_speed_unit", "") }}
+                                    {{ cur_weather.get("wind_dir", "") }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="cur_temps">
-                            <span class="max"
-                                >Current: {{ cur_weather.get("temp", "N/A")
-                                }}°</span
-                            >
-                        </div>
-                        <div class="cur_details">
-                            Feels like: {{ cur_weather.get("feels_like", "N/A")
-                            }}°<br />
-                            Humidity: {{ cur_weather.get("humidity", "N/A") }} %
-                            <br />Visibility: {{ cur_weather.get("visibility",
-                            "N/A") }}mi. <br />Pressure: {{
-                            cur_weather.get("surface_pressure", "N/A") }} hPa<br />
-                            Wind: {{ cur_weather.get("wind_speed", "N/A") }}
-                            mph<br />
-                            Wind gusts: {{ cur_weather.get("wind_gust", "N/A")
-                            }} mph <br />Wind direction: {{
-                            cur_weather.get("wind_dir", "N/A") }}
-                        </div>
+
+                        <div
+                            class="current-image"
+                            role="img"
+                            aria-label="Current weather conditions"
+                        >
+                            <img
+            src="{{ url_for('static', filename='Partly-Clear.gif') }}" alt="">
                     </div>
-                    <br /><br /><br />
+                    </div>                
 
-                    <div class="day-row">
-                        {% for day in forecast %}
-                        <div class="day-card">
-                            <div class="card-header">
-                                <span class="date">{{ day.date }}</span>
-                                <span class="emoji"
-                                    >{{ day.weather_code }}</span
-                                >
-                            </div>
-
-                            <div class="temps">
-                                <span class="max">{{ day.temp_max }}°</span>
-                                <span class="min">{{ day.temp_min }}°</span>
-                            </div>
-
-                            <div class="apparent">
-                                <small
-                                    >Feels like: {{ day.apparent_max }}°/{{
-                                    day.apparent_min }}°</small
-                                >
-                            </div>
-
-                            <div class="precip">
-                                🌧 {{ day.precip_prob }}% | 💧 {{ day.precip }}
-                                in
-                            </div>
-
-                            <div class="wind">
-                                💨 {{ day.wind_speed }} mph {{ day.wind_dir }}
-                            </div>
-
-                            <div class="sun">
-                                🌅 {{ day.sunrise.split("T")[1] }} | 🌇 {{
-                                day.sunset.split("T")[1] }}
-                            </div>
-
-                            <div class="uv">☀️ UV: {{ day.uv }}</div>
+                <div class="day-row">
+                    <!-- {% for day in forecast %}
+                    <div class="day-card">
+                        <div class="card-header">
+                            <span class="date">{{ day.date }}</span>
+                            <span></span>
+                            <span class="emoji"
+                                >{{ day.weather_code }}</span
+                            >
                         </div>
-                        {% endfor %} {% else %} Unable to locate "{{q}}"<br />Zip
-                        codes work well.{% endif %}
+
+                        <div class="temps">
+                            <span class="max">{{ day.temp_max }}°</span>
+                            <span class="min">{{ day.temp_min }}°</span>
+                        </div>
+
+
+                        <div class="precip">
+                            🌧 {{ day.precip_prob }}% | 💧 {{ day.precip }}
+                            in
+                        </div>
+
+                        <div class="wind">
+                            💨 {{ day.wind_speed }} mph {{ day.wind_dir }}
+                        </div>
+
+                        <div class="sun">
+                            🌅 {{ day.sunrise.split("T")[1] }} | 🌇 {{
+                            day.sunset.split("T")[1] }}
+                        </div>
+
+                        <div class="uv">☀️ UV: {{ day.uv }}</div>
                     </div>
+                    {% endfor %} -->
+                    {% else %} Unable to locate "{{q}}"<br />Zip
+                    codes work well.{% endif %}
                 </div>
+            </div>
+            <div class="footer">
+                | Fetched from <a href="https://open-meteo.com/">Open-Meteo</a> in {{ cur_weather.generationtime_ms }} ms |
             </div>
         </div>
     </body>

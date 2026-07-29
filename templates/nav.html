@@ -5,13 +5,11 @@
     <br />-->
 
     <p>
-        {% if loc and forecast and cur_weather %} Current & 5-day forecast
-        for<br />
+        {% if loc and forecast and cur_weather %}
         <span class="location"
-            >{{ loc.get("name", "Unknown") }}, {{ loc.get("state", "N/A") }}, {{
-            loc.get("country", "N/A") }}</span
+            ><h1>{{ loc.get("name", "Unknown") }}, {{ loc.get("state", "N/A") }}</h1></span
         ><br />
-        Population: {{ loc.get("population", "N/A") }}<br />Elevation: {{
+        :: Population: {{ loc.get("population", "N/A") }}<br />:: Elevation: {{
         loc.get("elevation", "N/A") }} ft.{% else %}
         <span class="location">Current & 5-day forecast</span><br />Enter your
         location below. {% endif %}

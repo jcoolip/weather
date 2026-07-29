@@ -312,6 +312,7 @@ def get_current_weather2(lat=None, lon=None, forecast_hours=None):
     print(r_json)
 
     current = r_json["current"]
+    current_units = r_json["current_units"]
 
     row = {
         "date": date,
@@ -322,8 +323,15 @@ def get_current_weather2(lat=None, lon=None, forecast_hours=None):
         "wind_speed": current["wind_speed_10m"],
         "wind_gust": current["wind_gusts_10m"],
         "wind_dir": deg_to_compass(current["wind_direction_10m"]),
-        "visibility": int(current["visibility"] / 1609),
+        "visibility": round(current["visibility"] / 1609.344, 1),
         "surface_pressure": current["surface_pressure"],
+        "generationtime_ms": round(r_json["generationtime_ms"],2),
+        "temp_unit": current_units["apparent_temperature"],
+        "relative_humidity_unit": current_units["relative_humidity_2m"],
+        "precipitation_unit": current_units["precipitation"],
+        "wind_speed_unit": current_units["wind_speed_10m"],
+        "surface_pressure_unit": current_units["surface_pressure"],
+        "visibility_unit": current_units["visibility"]
     }
 
     return row

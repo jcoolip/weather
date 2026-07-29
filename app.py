@@ -67,14 +67,6 @@ def add_header(response):
     response.headers["Expires"] = "0"
     return response
 
-
-DB_URL = os.getenv("DATABASE_URL")
-
-
-def get_conn():
-    return psycopg2.connect(DB_URL)
-
-
 @app.route("/health")
 def health():
     return {"status": "awesome sauce"}
@@ -120,15 +112,17 @@ def home():
 
 
 if __name__ == "__main__":
-    if dev_mode:
-        port = int(os.environ.get("PORT", 5500))  # dev port for livereload
-        server = Server(app.wsgi_app)
-        # watch templates and static CSS
-        server.watch("templates/")
-        server.watch("static/css/")
-        # optional: watch Python files and reload server
-        server.watch("*.py")
-        server.serve(host="0.0.0.0", port=port, debug=True)
-    else:
-        port = int(os.environ.get("PORT", 8000))
-        app.run(host="0.0.0.0", port=port, debug=True)
+    port = int(os.environ.get("PORT", 5500))
+    app.run(host="0.0.0.0", port=port, debug=True)
+    # if dev_mode:
+    #     port = int(os.environ.get("PORT", 5500))  # dev port for livereload
+    #     server = Server(app.wsgi_app)
+    #     # watch templates and static CSS
+    #     server.watch("templates/")
+    #     server.watch("static/css/")
+    #     # optional: watch Python files and reload server
+    #     server.watch("*.py")
+    #     server.serve(host="0.0.0.0", port=port, debug=True)
+    # else:
+    #     port = int(os.environ.get("PORT", 8000))
+    #     app.run(host="0.0.0.0", port=port, debug=True)
