@@ -1,17 +1,17 @@
 
-# :sunny::cloud::umbrella: Weather App
+# Weather info
 
 The aquisition and display of user specific weather related details as made available by the free weather api [Open-Meteo](https://open-meteo.com).
 
-Really though, you type in a zip code and it'll show you current and forecasted weather.  :+1:
+type in a zip code and it'll show you current and forecasted weather.
 
-## :hammer: Tools
+Tools
 - Python
 - PostgreSQL
 - Flask
 - HTML
 - CSS
-- sprinkle of Bash
+
 
 
 ## :card_file_box: Sources
