@@ -30,6 +30,25 @@
     --terminal-text: #ffffff;
     --terminal-text-muted: #cb9152;
     --terminal-panel: rgba(0, 0, 0, 0.88);
+
+    --case-black: #0a0907;
+    --panel-black: #0a0907;
+    --panel-raised: #0a0907;
+    --amber: #ffb000;
+    --amber-bright: #ffc547;
+    --amber-dim: #8a641d;
+    --green: #63d471;
+    --red: #ff4d3d;
+    --cream: #d8c7a2;
+    --tan: #9f8159;
+    --brown: #5f351e;
+    --brown-dark: #2c170d;
+    --atari-orange: #d96b22;
+    --commodore-blue: #4f74a8;
+    --commodore-light: #8da6c8;
+    --text-muted: #9b8d70;
+    --border: #4a3817;
+    --content-width: 760px;
 }
 
 /* Main current-weather panel */
@@ -41,7 +60,7 @@
     min-height: 215px;
 
     background: var(--terminal-panel);
-    border: 1px solid var(--terminal-border);
+    border: 1px solid var(--amber-dim);
 
     overflow: hidden;
 }
@@ -67,12 +86,27 @@
 .location h1 {
     margin: 0;
 
-    color: var(--color5);
+    color: var(--atari-orange);
     /* font-size: 10rem; */
     /* font-size: clamp(5rem, 5vw, 1.45rem); */
-    /* line-height: 1.1; */
+    line-height: 1.1;
+    letter-spacing: -0.05rem;
+    text-shadow: 0 0 10px rgba(255, 176, 0, 0.65);
+}
 
-    text-align: center;
+.location h1::after {
+    margin: 0;
+
+    color: var(--commodore-blue);
+    font-size: 9px;
+
+    line-height: 2.1;
+    display: block;
+    text-shadow: 0 0 6px rgba(255, 176, 0, 0.3), 0 0 12px rgba(79, 116, 168, 1);
+    text-transform: uppercase;
+
+
+    content: "> current conditions";
 }
 
 .location-meta {
@@ -100,35 +134,45 @@
 
 .detail-label {
     min-width: 0;
-    color: var(--terminal-text-muted);
+    color: var(--atari-orange);
     white-space: nowrap;
+    font-weight: 600;
+    text-shadow: 0 0 15px rgba(255, 176, 0, 0.95);
+
 }
 
 .detail-label::before {
     content: ":: ";
+    color: var(--commodore-blue);
+    font-size: 8px;
+    text-shadow: 0 0 6px rgba(255, 176, 0, 0.3), 0 0 12px rgba(79, 116, 168, 1);
 }
 
 .detail-value {
-    color: var(--terminal-text);
-
+    color: var(--amber-bright);
     text-align: right;
     white-space: nowrap;
 
+    font-weight: normal;
+
     font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 15px rgba(255, 176, 0, 0.95);
+
 }
 
 /* Right third */
 .current-image {
     position: relative;
     overflow: hidden;
-    padding-right: 2px;
-    border-left: 1px solid var(--terminal-border);
+    padding: 2px;
+    border-left: 1px solid var(--amber-dim);
 }
 
 .current-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    opacity: 0.9;
 
     position: relative;
     z-index: 1;
@@ -145,29 +189,30 @@
         repeating-linear-gradient(
             to bottom,
             transparent 0,
-            transparent 3px,
-            rgba(0, 0, 0, 0.12) 3px,
-            rgba(0, 0, 0, 0.12) 4px
+            transparent 2px,
+            rgba(83, 52, 10, 0.35) 3px,
+            rgba(95, 64, 7, 0.4) 4px
         );
 
     pointer-events: none;
 }
 
 .current-image::after {
-    content: "CURRENT";
+    content: "current";
 
     position: absolute;
 
     right: 4px;
     bottom: 4px;
 
-    writing-mode: vertical-rl;
+    /* writing-mode: vertical-rl; */
 
     font-size: .55rem;
-    letter-spacing: .15rem;
+    /* letter-spacing: .15rem; */
 
-    color: rgba(255,255,255,.45);
-
+    color: var(--commodore-blue);
+    text-shadow: 0 0 6px rgba(255, 176, 0, 0.3), 0 0 12px rgba(79, 116, 168, 1);
+    text-transform: uppercase;
     z-index: 2;
 
     pointer-events: none;
@@ -176,6 +221,8 @@
 .footer {
     font-size: 0.5rem;
     text-align: center;
+    color: var(--commodore-light);
+    text-shadow: 0 0 6px rgba(255, 176, 0, 0.3), 0 0 12px rgba(79, 116, 168, 1);
 }
 
 input[type="text"] {
@@ -301,12 +348,13 @@ body {
 /* ---------- Links ---------- */
 
 a {
-    color: white;
+    color: var(--color1);
     text-decoration: none;
 }
 
 a:hover {
     text-decoration: underline;
+    color:#a16112
 }
 
 /* ---------- Container ---------- */
@@ -331,7 +379,7 @@ a:hover {
 
     padding: 0.75rem;
 
-    border-radius: 1px;
+    border-radius: 4px;
 
     background: rgba(0, 0, 0, 0.85);
 
@@ -340,7 +388,7 @@ a:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 
     border: 2px;
-    border-color: #cb9152;
+    border-color: var(--terminal-border);
 }
 
 /* ---------- Card variant ---------- */
@@ -439,6 +487,18 @@ p {
 @media (min-width: 600px) {
     body {
         padding: 1rem;
+        margin-top: 2rem;
+    }
+
+    .card,
+    .nav_card,
+    .job_listings,
+    .skills-card {
+        width: 70%;
+        align-items: center;
+        margin: auto;
+        min-width: 600px;
+        max-width: 800px;
     }
 
     .current-card {

@@ -30,7 +30,7 @@
                                     {% endif %}
 
                                     {% if loc.elevation %}
-                                        <div class="detail-label">Elevation</div><div class="detail-value">{{ loc.elevation }} ft.</div>
+                                        <div class="detail-label">Elevation</div><div class="detail-value">{{ loc.elevation }} ft</div>
                                     {% endif %}
                                 </div>
 
@@ -55,7 +55,7 @@
 
                                 <div class="detail-label">Humidity</div>
                                 <div class="detail-value">
-                                    {{ cur_weather.get("humidity", "N/A") }}%
+                                    {{ cur_weather.get("humidity", "N/A") }} %
                                 </div>
 
                                 <div class="detail-label">Visibility</div>
@@ -85,7 +85,7 @@
                             aria-label="Current weather conditions"
                         >
                             <img
-            src="{{ url_for('static', filename='Partly-Clear.gif') }}" alt="">
+            src="{{ url_for('static', filename='weather-images/Partly-Clear.gif') }}" alt="">
                     </div>
                     </div>                
 
