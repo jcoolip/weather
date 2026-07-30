@@ -71,6 +71,20 @@ def add_header(response):
 def health():
     return {"status": "awesome sauce"}
 
+@app.route("/embed/current")
+def embed_current():
+    loc = geocode_city("25801")
+    cur_weather = get_current_weather2(
+        lat=loc["latitude"],
+        lon=loc["longitude"],
+    )
+
+    return render_template(
+        "embed_current.html",
+        loc=loc,
+        cur_weather=cur_weather,
+    )
+
 
 @app.route("/find")
 def find():
