@@ -1,21 +1,18 @@
 
 # Weather info
 
-The aquisition and display of user specific weather related details as made available by the free weather api [Open-Meteo](https://open-meteo.com).
-
-type in a zip code and it'll show you current and forecasted weather.
+Displays current weather for a city.
 
 Tools
 - Python
-- PostgreSQL
 - Flask
 - HTML
 - CSS
 
 
-
 ##  Sources
-- [Open-Meteo](https://open-meteo.com).
+- [Open-Meteo](https://open-meteo.com) - Weather API
+- [MalekMasoud](https://www.deviantart.com/malekmasoud/art/WeatherSTAR-4000-Icon-Collection-1990-2014-787484940) - Old school weather channel icons
 
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/jcoolip/weather)
