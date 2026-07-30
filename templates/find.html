@@ -33,21 +33,10 @@
                                         <div class="detail-label">Elevation</div><div class="detail-value">{{ loc.elevation }} ft</div>
                                     {% endif %}
                                 </div>
-
-
-                                <!-- <div class="location-meta">
-                                    {% if loc.population %}
-                                        <div>:: Population: {{ loc.population }}</div>
-                                    {% endif %}
-
-                                    {% if loc.elevation %}
-                                        <div>:: Elevation: {{ loc.elevation }} ft.</div>
-                                    {% endif %}
-                                </div> -->
                             </div>
 
                             <div class="cur-details">
-                                <div class="detail-label">Current</div>
+                                <div class="detail-label">Temperature</div>
                                 <div class="detail-value">
                                     {{ cur_weather.get("temp", "N/A") }}
                                     {{ cur_weather.get("temp_unit", "") }}
@@ -81,12 +70,19 @@
 
                         <div
                             class="current-image"
+                            style="--weather-accent: {{ cur_weather.weather.accent }};"
                             role="img"
                             aria-label="Current weather conditions"
                         >
                             <img
-            src="{{ url_for('static', filename='weather-images/Partly-Clear.gif') }}" alt="">
-                    </div>
+                            src="{{ url_for(
+                                'static',
+                                filename='weather-images/' + cur_weather.weather.image
+                            ) }}"
+                            alt="{{ cur_weather.weather.description }}"
+                            >
+                            <span class="weather-label">{{ cur_weather.weather.name }}</span>
+                        </div>
                     </div>                
 
                 <div class="day-row">

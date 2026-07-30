@@ -8,8 +8,6 @@ from datetime import date, datetime, timedelta
 
 import requests
 
-## TODO:  images for conditions
-## using emojis right now. maybe that's good enough
 # 0,1: clear
 # 2,3: cloudy
 # 45,48: fog
@@ -26,68 +24,180 @@ import requests
 # 95: Slight Thunderstorm
 # 96,99: Thunderstorm with slight hail
 
-weather_code_map = {
-    0: "☀️",
-    1: "🌤️",
-    2: "⛅",
-    3: "⛅",
-    45: "🌫️",
-    48: "🌫️",
-    51: "🌦️",
-    53: "🌦️",
-    55: "🌧️",
-    56: "🌨️",
-    57: "🌨️",
-    61: "🌧️",
-    63: "🌧️",
-    65: "🌧️",
-    66: "🌧️❄️",
-    67: "🌧️❄️",
-    71: "🌨️",
-    73: "🌨️",
-    75: "🌨️",
-    77: "🌨️",
-    80: "☔",
-    81: "☔",
-    82: "☔",
-    85: "🌨️",
-    86: "🌨️",
-    95: "🌩️",
-    96: "🌩️❄️",
-    99: "🌩️❄️",
-}
+# WMO code: [description, long_description, map_icon_designation]
+WMO_WEATHER = {
+    0: {
+        "name": "Clear",
+        "description": "Clear sky",
+        "image": "Sunny.gif",
+        "accent": "#CB9152",
+    },
 
-WEATHER_IMAGES = {
-    0: "clear-day.png",
+    1: {
+        "name": "Mainly Clear",
+        "description": "Mainly clear",
+        "image": "Sunny.gif",
+        "accent": "#CB9152",
+    },
 
-    1: "partly-cloudy.png",
-    2: "partly-cloudy.png",
-    3: "overcast.png",
+    2: {
+        "name": "Partly Cloudy",
+        "description": "Partly cloudy",
+        "image": "Partly-Cloudy.gif",
+        "accent": "#CB9152",
+    },
 
-    45: "fog.png",
-    48: "fog.png",
+    3: {
+        "name": "Overcast",
+        "description": "Overcast",
+        "image": "Cloudy.gif",
+        "accent": "#CCCCCC",
+    },
 
-    51: "drizzle.png",
-    53: "drizzle.png",
-    55: "drizzle.png",
-
-    61: "rain.png",
-    63: "rain.png",
-    65: "rain.png",
-    80: "rain.png",
-    81: "rain.png",
-    82: "rain.png",
-
-    71: "snow.png",
-    73: "snow.png",
-    75: "snow.png",
-    77: "snow.png",
-    85: "snow.png",
-    86: "snow.png",
-
-    95: "thunder.png",
-    96: "thunder.png",
-    99: "thunder.png",
+    45: {
+        "name": "Fog",
+        "description": "Foggy",
+        "image": "Fog.gif",
+        "accent": "#CCCCCC",
+    },
+    48: {
+        "name": "Fog",
+        "description": "Depositing rime fog",
+        "image": "Fog.gif",
+        "accent": "#CCCCCC",
+    },
+    51: {
+        "name": "Drizzle",
+        "description": "Light drizzle",
+        "image": "Showers.gif",
+        "accent": "#92F5FA",
+    },
+    53: {
+        "name": "Drizzle",
+        "description": "Moderate drizzle",
+        "image": "Showers.gif",
+        "accent": "#92F5FA",
+    },
+    55: {
+        "name": "Drizzle",
+        "description": "Dense drizzle",
+        "image": "Wintry-Mix.gif",
+        "accent": "#92F5FA",
+    },
+    56: {
+        "name": "Freezing Drizzle",
+        "description": "Light freezing drizzle",
+        "image": "Wintry-Mix.gif",
+        "accent": "#92F5FA",
+    },
+    57: {
+        "name": "Freezing Drizzle",
+        "description": "Dense freezing drizzle",
+        "image": "Wintry-Mix.gif",
+        "accent": "#92F5FA",
+    },
+    61: {
+        "name": "Rain",
+        "description": "Slight rain",
+        "image": "Showers.gif",
+        "accent": "#92F5FA",
+    },
+    63: {
+        "name": "Rain",
+        "description": "Moderate rain",
+        "image": "Rain.gif",
+        "accent": "#92F5FA",
+    },
+    65: {
+        "name": "Rain",
+        "description": "Heavy rain",
+        "image": "Rain.gif",
+        "accent": "#92F5FA",
+    },
+    66: {
+        "name": "Freezing Rain",
+        "description": "Light freezing rain",
+        "image": "Freezing-Rain.gif",
+        "accent": "#ffffff",
+    },
+    67: {
+        "name": "Freezing Rain",
+        "description": "Heavy freezing rain",
+        "image": "Freezing-Rain.gif",
+        "accent": "#ffffff",
+    },
+    71: {
+        "name": "Snow",
+        "description": "Slight snow fall",
+        "image": "Light-Snow.gif",
+        "accent": "#ffffff",
+    },
+    73: {
+        "name": "Snow",
+        "description": "Moderate snow fall",
+        "image": "Light-Snow.gif",
+        "accent": "#ffffff",
+    },
+    75: {
+        "name": "Snow",
+        "description": "Heavy snow fall",
+        "image": "Heavy-Snow.gif",
+        "accent": "#ffffff",
+    },
+    77: {
+        "name": "Snow",
+        "description": "Snow grains falling",
+        "image": "Light-Snow.gif",
+        "accent": "#ffffff",
+    },
+    80: {
+        "name": "Rain Showers",
+        "description": "Slight rain showers",
+        "image": "Showers.gif",
+        "accent": "#92F5FA",
+    },
+    81: {
+        "name": "Rain Showers",
+        "description": "Moderate rain showers",
+        "image": "Rain.gif",
+        "accent": "#92F5FA",
+    },
+    82: {
+        "name": "Rain Showers",
+        "description": "Violent rain showers",
+        "image": "Rain.gif",
+        "accent": "#92F5FA",
+    },
+    85: {
+        "name": "Snow Showers",
+        "description": "Slight snow showers",
+        "image": "Light-Snow.gif",
+        "accent": "#ffffff",
+    },
+    86: {
+        "name": "Snow Showers",
+        "description": "Heavy snow showers",
+        "image": "Heavy-Snow.gif",
+        "accent": "#ffffff",
+    },
+    95: {
+        "name": "Thunderstorms",
+        "description": "Thunderstorm",
+        "image": "Thunderstorms.gif",
+        "accent": "#f2b64a",
+    },
+    96: {
+        "name": "Thunderstorms",
+        "description": "Thunderstorm with slight hail",
+        "image": "Thunderstorms.gif",
+        "accent": "#f2b64a",
+    },
+    99: {
+        "name": "Thunderstorms",
+        "description": "Thunderstorm with heavy hail",
+        "image": "Thunderstorms.gif",
+        "accent": "#f2b64a",
+    }
 }
 
 uv_index_map = {
@@ -185,7 +295,7 @@ def five_day_forecast(lat=None, lon=None, start_date=None, end_date=None, days_a
     for i in range(len(daily["time"])):
         row = {
             "date": format_day(daily["time"][i]),
-            "weather_code": weather_code_map.get(daily["weather_code"][i], "Unknown"),
+            "weather_code": WMO_WEATHER.get(daily["weather_code"][i], "Unknown"),
             "temp_max": daily["temperature_2m_max"][i],
             "temp_min": daily["temperature_2m_min"][i],
             "apparent_max": daily["apparent_temperature_max"][i],
@@ -239,16 +349,33 @@ def get_current_weather2(lat=None, lon=None, forecast_hours=None):
         "temperature_unit": "fahrenheit",
         "precipitation_unit": "inch",
     }
-    r_json = requests.get(url, params=params)
-    r_json = r_json.json()
+    response = requests.get(url, params=params, timeout=10)
+    response.raise_for_status()
+    r_json = response.json()
     print(r_json)
 
     current = r_json["current"]
     current_units = r_json["current_units"]
 
+    weather_code = current["weather_code"]
+    weather = WMO_WEATHER.get(weather_code,
+        {
+            "name": "Unknown",
+            "description": "Unknown weather conditions",
+            "image": "Cloudy.gif",
+            "accent": "#CCCCCC",
+        },
+    ).copy()
+
+    current_hour = datetime.now().hour
+
+    if current_hour >= 21 or current_hour < 4:
+        weather["image"] = "Night.gif"
+
     row = {
         "date": date,
-        "weather_code": weather_code_map.get(current["weather_code"], "Unknown"),
+        "weather_code": current["weather_code"],
+        "weather": weather,
         "temp": current["temperature_2m"],
         "feels_like": current["apparent_temperature"],
         "humidity": current["relative_humidity_2m"],
