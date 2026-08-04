@@ -69,3 +69,4 @@ Thumbs.db
 ingest/logs/
 ingest/logs/*.json
 *.log
+logs/

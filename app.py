@@ -86,7 +86,7 @@ def embed_current():
     )
 
 
-@app.route("/find")
+@app.route("/")
 def find():
     ### get user submitted input
     ### default to Beckley if first load
@@ -120,9 +120,9 @@ def find():
     )
 
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+#@app.route("/")
+#def home():
+#    return render_template("index.html")
 
 
 if __name__ == "__main__":

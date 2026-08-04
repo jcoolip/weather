@@ -51,6 +51,10 @@
     --content-width: 760px;
 }
 
+body {
+    background: #000000;
+}
+
 /* Main current-weather panel */
 .current-card {
     display: grid;
@@ -64,6 +68,21 @@
 
     overflow: hidden;
 }
+
+.current-card-embed {
+    display: grid; 
+    grid-template-columns: minmax(0, 2fr) minmax(90px, 1fr);
+
+    width: 100%;
+    min-height: 215px;
+    
+    background: #000000;
+    border: 1px solid var(--amber-dim);
+
+    overflow: hidden;
+}
+
+
 
 /* Left two-thirds */
 .current-info {

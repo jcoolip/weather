@@ -86,41 +86,8 @@
                     </div>                
 
                 <div class="day-row">
-                    <!-- {% for day in forecast %}
-                    <div class="day-card">
-                        <div class="card-header">
-                            <span class="date">{{ day.date }}</span>
-                            <span></span>
-                            <span class="emoji"
-                                >{{ day.weather_code }}</span
-                            >
-                        </div>
-
-                        <div class="temps">
-                            <span class="max">{{ day.temp_max }}°</span>
-                            <span class="min">{{ day.temp_min }}°</span>
-                        </div>
-
-
-                        <div class="precip">
-                            🌧 {{ day.precip_prob }}% | 💧 {{ day.precip }}
-                            in
-                        </div>
-
-                        <div class="wind">
-                            💨 {{ day.wind_speed }} mph {{ day.wind_dir }}
-                        </div>
-
-                        <div class="sun">
-                            🌅 {{ day.sunrise.split("T")[1] }} | 🌇 {{
-                            day.sunset.split("T")[1] }}
-                        </div>
-
-                        <div class="uv">☀️ UV: {{ day.uv }}</div>
-                    </div>
-                    {% endfor %} -->
-                    {% else %} Unable to locate "{{q}}"<br />Zip
-                    codes work well.{% endif %}
+                    {% else %} Unable to locate "{{q}}"<br />Oops.
+                    {% endif %}
                 </div>
             </div>
             <div class="footer">
