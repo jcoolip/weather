@@ -191,8 +191,8 @@ def index():
             }
     else:
         loc = geocode_city("New York City")
-        latitude = loc["DEFAULT_LATITUDE"]
-        longitude = loc["DEFAULT_LONGITUDE"]
+        latitude = loc["latitude"]
+        longitude = loc["longitude"]
 
     cur_weather = get_current_weather2(
         latitude,
