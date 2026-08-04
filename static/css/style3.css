@@ -179,6 +179,109 @@ body {
 
 }
 
+.location-controls {
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+
+    margin: auto;
+    padding: 0.45rem 0.6rem;
+
+    font-family: "IBMPlexMono-Regular", monospace;
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06rem;
+
+    color: var(--commodore-light);
+
+}
+
+.location-controls::before {
+    content: "> location input";
+
+    margin-right: auto;
+
+    color: var(--commodore-blue);
+    font-size: 0.5rem;
+    white-space: nowrap;
+
+    text-shadow:
+        0 0 6px rgba(79, 116, 168, 0.8);
+}
+
+.location-controls button {
+    appearance: none;
+
+    padding: 0.4rem 0.65rem;
+
+    background: #000000;
+    border: 0px solid var(--atari-orange);
+    border-radius: 0;
+
+    color: var(--commodore-blue);
+
+    font-family: "IBMPlexMono-Regular", monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    text-shadow:
+        0 0 7px rgba(255, 176, 0, 0.6);
+
+    transition:
+        background 120ms ease,
+        color 120ms ease,
+        box-shadow 120ms ease;
+}
+
+.location-controls button::before {
+    content: "[ ";
+}
+
+.location-controls button::after {
+    content: " ]";
+}
+
+.location-controls button:hover {
+    background: var(--atari-orange);
+    color: var(--case-black);
+
+    box-shadow:
+        0 0 10px rgba(217, 107, 34, 0.65);
+}
+
+.location-controls button:focus-visible {
+    outline: 1px dashed var(--amber-bright);
+    outline-offset: 3px;
+}
+
+.location-controls button:disabled {
+    cursor: wait;
+    opacity: 0.45;
+    color: var(--text-muted);
+    border-color: var(--amber-dim);
+    box-shadow: none;
+}
+
+#location-status {
+    min-width: 7rem;
+
+    color: var(--commodore-light);
+    font-size: 0.58rem;
+    line-height: 1.2;
+    text-align: right;
+
+    text-shadow:
+        0 0 6px rgba(79, 116, 168, 0.7);
+}
+
+#location-status:not(:empty)::before {
+    content: ":: ";
+    color: var(--atari-orange);
+}
+
 /* Right third */
 .current-image {
     position: relative;

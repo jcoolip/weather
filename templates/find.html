@@ -14,6 +14,13 @@
     </head>
     <body>
         <div class="page_container">
+            <div class="location-controls">
+                <button type="button" id="use-location">
+                    Use current location
+                </button>
+                <div class="location-status"></div>
+            </div>
+
             <br />
             <div class="job_listings">
                 <br />
@@ -91,13 +98,6 @@
                     {% else %} Unable to locate "{{q}}"<br />Oops.
                     {% endif %}
                 </div>
-            </div>
-            <div class="location-controls">
-                <button type="button" id="use-location">
-                    Use current location
-                </button>
-
-                <span id="location-status"></span>
             </div>
             {% if cur_weather %}
                 <div class="footer">
