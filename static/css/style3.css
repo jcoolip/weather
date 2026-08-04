@@ -215,20 +215,17 @@ body {
 
     padding: 0.4rem 0.5rem;
 
-    background: var(--case-black);
-    border: 0px solid var(--amber-dim);
-    border-radius: 0;
+    background: #000000;
+    border: 1px solid var(--amber-dim);
 
     color: var(--amber-bright);
     caret-color: var(--commodore-blue);
 
     font-family: "IBMPlexMono-Regular", monospace;
     font-size: 0.72rem;
+    text-align: center;
 
     outline: none;
-
-    box-shadow:
-        inset 0 0 8px rgba(255, 176, 0, 0.08);
 }
 
 .location-controls input[type="text"]:focus {
@@ -255,9 +252,9 @@ body {
 
     font-family: "IBMPlexMono-Regular", monospace;
     font-size: 0.62rem;
-    font-weight: bold;
     letter-spacing: 0.04rem;
     text-transform: uppercase;
+
 
     cursor: pointer;
 
