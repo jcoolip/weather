@@ -49,6 +49,78 @@ def deg_to_compass(deg):
     idx = int((d / 45.0) + 0.5) % 8
     return directions[idx]
 
+import requests
+
+
+def reverse_geocode(latitude, longitude):
+    url = "https://nominatim.openstreetmap.org/reverse"
+
+    params = {
+        "lat": latitude,
+        "lon": longitude,
+        "format": "jsonv2",
+        "addressdetails": 1,
+        "zoom": 10,
+    }
+
+    headers = {
+        "User-Agent": "jcullop-weather/1.0"
+    }
+
+    response = requests.get(
+        url,
+        params=params,
+        headers=headers,
+        timeout=10,
+    )
+    response.raise_for_status()
+
+    data = response.json()
+    address = data.get("address", {})
+
+    name = (
+        address.get("city")
+        or address.get("town")
+        or address.get("village")
+        or address.get("municipality")
+        or address.get("county")
+        or "Current Location"
+    )
+
+    state = (
+        address.get("state_code")
+        or address.get("state")
+        or ""
+    )
+
+    return {
+        "name": name,
+        "state": state,
+        "country": address.get("country"),
+        "latitude": latitude,
+        "longitude": longitude,
+        "population": None,
+        "elevation": None,
+    }
+
+def get_elevation(latitude, longitude):
+    response = requests.get(
+        "https://api.open-meteo.com/v1/elevation",
+        params={
+            "latitude": latitude,
+            "longitude": longitude,
+        },
+        timeout=10,
+    )
+    response.raise_for_status()
+
+    elevation_meters = response.json()["elevation"][0]
+
+    if elevation_meters is None:
+        return None
+
+    return round(elevation_meters * 3.28084)
+
 
 load_dotenv()
 
@@ -86,33 +158,54 @@ def embed_current():
     )
 
 
+
+
 DEFAULT_LATITUDE = 40.71
 DEFAULT_LONGITUDE = -74.00
 
+
 @app.route("/")
 def index():
-    latitude = request.args.get(
-        "lat",
-        default=DEFAULT_LATITUDE,
-        type=float
+    latitude = request.args.get("lat", type=float)
+    longitude = request.args.get("lon", type=float)
+
+    using_browser_location = (
+        latitude is not None
+        and longitude is not None
+        and -90 <= latitude <= 90
+        and -180 <= longitude <= 180
     )
 
-    longitude = request.args.get(
-        "lon",
-        default=DEFAULT_LONGITUDE,
-        type=float
-    )
+    if using_browser_location:
+        try:
+            loc = reverse_geocode(latitude, longitude)
+            loc["elevation"] = get_elevation(latitude, longitude)
+        except requests.RequestException:
+            loc = {
+                "name": "Current Location",
+                "state": "",
+                "latitude": latitude,
+                "longitude": longitude,
+                "population": None,
+                "elevation": None,
+            }
+    else:
+        loc = geocode_city("New York City")
+        latitude = loc["DEFAULT_LATITUDE"]
+        longitude = loc["DEFAULT_LONGITUDE"]
 
     cur_weather = get_current_weather2(
-        lat,
-        lon
+        latitude,
+        longitude,
     )
 
     return render_template(
         "find.html",
         cur_weather=cur_weather,
+        loc=loc,
         latitude=latitude,
         longitude=longitude,
+        using_browser_location=using_browser_location,
     )
 
 
