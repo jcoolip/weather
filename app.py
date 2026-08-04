@@ -86,38 +86,67 @@ def embed_current():
     )
 
 
+DEFAULT_LATITUDE = 40.71
+DEFAULT_LONGITUDE = -74.00
+
 @app.route("/")
-def find():
+def index():
+    latitude = request.args.get(
+        "lat",
+        default=DEFAULT_LATITUDE,
+        type=float
+    )
+
+    longitude = request.args.get(
+        "lon",
+        default=DEFAULT_LONGITUDE,
+        type=float
+    )
+
+    cur_weather = get_current_weather2(
+        lat,
+        lon
+    )
+
+    return render_template(
+        "find.html",
+        cur_weather=cur_weather,
+        latitude=latitude,
+        longitude=longitude,
+    )
+
+
+
     ### get user submitted input
     ### default to Beckley if first load
     ### TODO: ask for location/save pref somehow.
     ###       i think its cookies. mmm
-    q = request.args.get("q", "25801")
-    cur_weather = None
-    loc = None
+#    q = request.args.get("q", "25801")
+#    cur_weather = None
+#    loc = None
 
-    if q:
-        try:
-            loc = geocode_city(q)
-            if isinstance(loc, dict) and "error" in loc:
-                cur_weather = None
-                forecast = None
-            else:
-                cur_weather = (
-                    get_current_weather2(loc["latitude"], loc["longitude"]) or None
-                )
-                forecast = five_day_forecast(loc["latitude"], loc["longitude"]) or None
-        except Exception as e:
-            cur_weather = None
-            forecast = None
+#    if q:
+#        try:
+#            loc = geocode_city(q)
+#            if isinstance(loc, dict) and "error" in loc:
+#                cur_weather = None
+#                forecast = None
+#            else:
+#                cur_weather = (
+#                    get_current_weather2(loc["latitude"], loc["longitude"]) or None
+#                )
+#                forecast = five_day_forecast(loc["latitude"], loc["longitude"]) or None
+#        except Exception as e:
+#            cur_weather = None
+#            forecast = None
 
-    return render_template(
-        "find.html",
-        q=q,
-        cur_weather=cur_weather,
-        forecast=forecast,
-        loc=loc,
-    )
+#    return render_template(
+#        "find.html",
+#        q=q,
+#        cur_weather=cur_weather,
+#        forecast=forecast,
+#        loc=loc,
+#    )
 
 
 #@app.route("/")
