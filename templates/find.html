@@ -14,12 +14,21 @@
     </head>
     <body>
         <div class="page_container">
-            <div class="location-controls">
-                <button type="button" id="use-location">
-                    Use current location
-                </button>
-                <div class="location-status"></div>
-            </div>
+            <form class="location-controls" method="get" action="{{ url_for('index') }}">
+                <label for="location-query">Location</label>
+
+                <input
+                    type="text"
+                    id="location-query"
+                    name="q"
+                    value="{{ q }}"
+                    placeholder="City or ZIP code"
+                    autocomplete="postal-code"
+                    required
+                >
+
+                <button type="submit">Load weather</button>
+            </form>
 
             <br />
             <div class="job_listings">
@@ -35,7 +44,7 @@
                                 <br>
                                 <div class="cur-details">
                                     {% if loc.population %}
-                                        <div class="detail-label">Population</div><div class="detail-value">pop</div>
+                                        <div class="detail-label">Population</div><div class="detail-value">{{ loc.population }}</div>
                                     {% endif %}
 
                                     {% if loc.elevation %}
@@ -95,8 +104,11 @@
                     </div>                
 
                 <div class="day-row">
-                    {% else %} Unable to locate "{{q}}"<br />Oops.
-                    {% endif %}
+                {% elif error %}
+                    <div class="location-error">
+                        {{ error }}
+                    </div>
+                {% endif %}
                 </div>
             </div>
             {% if cur_weather %}
@@ -107,55 +119,5 @@
                 </div>
             {% endif %}
         </div>
-
-        <script>
-            const locationButton = document.getElementById("use-location");
-            const locationStatus = document.getElementById("location-status");
-
-            locationButton.addEventListener("click", () => {
-                if (!navigator.geolocation) {
-                    locationStatus.textContent =
-                        "Location is not supported by this browser.";
-                    return;
-                }
-
-                locationStatus.textContent = "Locating…";
-                locationButton.disabled = true;
-
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const params = new URLSearchParams({
-                            lat: position.coords.latitude,
-                            lon: position.coords.longitude,
-                        });
-
-                        window.location.href = `/?${params.toString()}`;
-                    },
-                    (error) => {
-                        locationButton.disabled = false;
-
-                        if (error.code === error.PERMISSION_DENIED) {
-                            locationStatus.textContent =
-                                "Location permission denied.";
-                        } else if (error.code === error.POSITION_UNAVAILABLE) {
-                            locationStatus.textContent =
-                                "Location unavailable.";
-                        } else if (error.code === error.TIMEOUT) {
-                            locationStatus.textContent =
-                                "Location request timed out.";
-                        } else {
-                            locationStatus.textContent =
-                                "Unable to retrieve location.";
-                        }
-                    },
-                    {
-                        enableHighAccuracy: false,
-                        timeout: 10000,
-                        maximumAge: 300000,
-                    }
-                );
-            });
-        </script>
-
     </body>
 </html>

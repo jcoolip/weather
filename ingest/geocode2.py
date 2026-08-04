@@ -10,51 +10,40 @@ import requests
 
 
 def geocode_city(city_name="Beckley"):
-    """Geocode a city name to location metadata.
-
-    Args:
-        city_name (str): User-typed city name. Defaults to "New York City"
-
-    Returns:
-        dict: A dictionary with keys `typed_name`, `name`, `latitude`,
-              `longitude`, and `timezone` suitable for downstream use.
-
-    Raises:
-        ValueError: If the API response doesn't include a `results` entry.
-    """
-
-    # Build the geocoding API endpoint and request parameters. We ask for
-    # a single (most relevant) result by setting count=1.
     url = "https://geocoding-api.open-meteo.com/v1/search"
-    params = {"name": city_name, "count": 1}
 
-    # Make the HTTP GET request to the geocoding API.
-    response = requests.get(url, params=params)
+    params = {
+        "name": city_name,
+        "count": 1,
+        "language": "en",
+        "format": "json",
+    }
 
-    # Parse JSON body only on successful response; other statuses will
-    # leave `data` undefined and cause the subsequent check to fail.
-    if response.status_code == 200:
-        data = response.json()
+    response = requests.get(
+        url,
+        params=params,
+        timeout=10,
+    )
+    response.raise_for_status()
 
-    # If there are no results in the response, raise a meaningful error so
-    # callers can handle the lookup failure explicitly.
-    if "results" not in data:
-        # raise ValueError(f"City '{city_name}' not found in geocoding API.")
-        return {"error": f"City '{city_name}' not found in geocoding API."}
+    data = response.json()
+    results = data.get("results", [])
 
-    # Use the first result returned by the API (most relevant match).
-    result = data["results"][0]
+    if not results:
+        return {
+            "error": f'Location "{city_name}" was not found.'
+        }
 
-    # Return a compact dictionary with both the original typed name and the
-    # canonical fields the rest of the application expects.
+    result = results[0]
+
     return {
         "typed_name": city_name,
-        "name": result["name"],
+        "name": result.get("name", city_name),
         "latitude": result["latitude"],
         "longitude": result["longitude"],
-        "timezone": result["timezone"],
-        "elevation": result["elevation"],
-        "population": result["population"] or None,
-        "country": result["country"],
-        "state": result["admin1"],
+        "timezone": result.get("timezone"),
+        "elevation": result.get("elevation"),
+        "population": result.get("population"),
+        "country": result.get("country"),
+        "state": result.get("admin1"),
     }

@@ -166,46 +166,37 @@ DEFAULT_LONGITUDE = -74.00
 
 @app.route("/")
 def index():
-    latitude = request.args.get("lat", type=float)
-    longitude = request.args.get("lon", type=float)
+    q = request.args.get("q", "Beckley").strip()
 
-    using_browser_location = (
-        latitude is not None
-        and longitude is not None
-        and -90 <= latitude <= 90
-        and -180 <= longitude <= 180
-    )
+    cur_weather = None
+    loc = None
+    error = None
 
-    if using_browser_location:
-        try:
-            loc = reverse_geocode(latitude, longitude)
-            loc["elevation"] = get_elevation(latitude, longitude)
-        except requests.RequestException:
-            loc = {
-                "name": "Current Location",
-                "state": "",
-                "latitude": latitude,
-                "longitude": longitude,
-                "population": None,
-                "elevation": None,
-            }
-    else:
-        loc = geocode_city("New York City")
-        latitude = loc["latitude"]
-        longitude = loc["longitude"]
+    try:
+        loc = geocode_city(q)
 
-    cur_weather = get_current_weather2(
-        latitude,
-        longitude,
-    )
+        if "error" in loc:
+            error = loc["error"]
+            loc = None
+        else:
+            cur_weather = get_current_weather2(
+                loc["latitude"],
+                loc["longitude"],
+            )
+
+    except requests.RequestException:
+        error = "Unable to contact the weather service."
+
+    except Exception as exc:
+        app.logger.exception("Weather lookup failed")
+        error = "Unable to retrieve weather information."
 
     return render_template(
         "find.html",
-        cur_weather=cur_weather,
+        q=q,
         loc=loc,
-        latitude=latitude,
-        longitude=longitude,
-        using_browser_location=using_browser_location,
+        cur_weather=cur_weather,
+        error=error,
     )
 
 
